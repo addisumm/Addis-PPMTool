@@ -11,21 +11,24 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public Project saveOrUpdate(Project project){
-        try{
+    public Project saveOrUpdate (Project project) {
+        try {
             project.setProjectIdentifier (project.getProjectIdentifier ().toUpperCase ());
             return projectRepository.save (project);
-        }
-        catch (Exception exception){
-            throw new ProjectIdException ("Project Id '"+project.getProjectIdentifier ().toUpperCase ()+" ' already exists");
+        } catch (Exception exception) {
+            throw new ProjectIdException ("Project Id '" + project.getProjectIdentifier ().toUpperCase () + " ' already exists");
         }
     }
 
-    public Project findProjectByIdentifier(String projectId){
-        Project project= projectRepository.findByProjectIdentifier (projectId.toUpperCase ());
-        if(project==null){
-            throw new ProjectIdException ("Project Id '"+projectId+" ' doesn't exists");
+    public Project findProjectByIdentifier (String projectId) {
+        Project project = projectRepository.findByProjectIdentifier (projectId.toUpperCase ());
+        if (project == null) {
+            throw new ProjectIdException ("Project Id '" + projectId + " ' doesn't exists");
         }
         return project;
+    }
+
+    public Iterable <Project> findAllProjects () {
+        return projectRepository.findAll ();
     }
 }

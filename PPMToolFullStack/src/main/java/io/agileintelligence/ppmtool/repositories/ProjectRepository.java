@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface ProjectRepository extends CrudRepository<Project, Long> {
     @Override
     Optional <Project> findById (Long aLong);
-    Iterable<Project> findAllById(Iterable<Long> iterable);
+    Iterable<Project> findAll();
 
     Project findByProjectIdentifier(String projectId);
 }
