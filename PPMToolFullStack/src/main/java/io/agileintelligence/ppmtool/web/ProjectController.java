@@ -1,6 +1,5 @@
 package io.agileintelligence.ppmtool.web;
 
-import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import io.agileintelligence.ppmtool.domain.Project;
 import io.agileintelligence.ppmtool.services.MapValidationErrorService;
 import io.agileintelligence.ppmtool.services.ProjectService;
@@ -31,14 +30,19 @@ public class ProjectController {
     }
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<?> getProjectById(@PathVariable String projectId){
-        Project project= projectService.findProjectByIdentifier (projectId);
-        return  new ResponseEntity <Project> (project,HttpStatus.OK);
+    public ResponseEntity <?> getProjectById (@PathVariable String projectId) {
+        Project project = projectService.findProjectByIdentifier (projectId);
+        return new ResponseEntity <Project> (project, HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public Iterable<Project> getAllProjects(){
+    public Iterable <Project> getAllProjects () {
         return projectService.findAllProjects ();
     }
 
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity <?> deleteProject (@PathVariable String projectId) {
+        projectService.deleteProjectByIdentifier (projectId);
+        return new ResponseEntity <String> ("Project with Id ' " + projectId + " 'was deleted ", HttpStatus.OK);
+    }
 }
