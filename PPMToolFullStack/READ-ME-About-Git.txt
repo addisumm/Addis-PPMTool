@@ -1,0 +1,23 @@
+
+Creating a branch, branch1: 
+	git branch branch1
+check existing branches:
+	git branch
+
+checkout to the new branch, branch1:
+	git checkout branch1
+Make any change you want on branch1 and stage the changes:
+	git add .
+commit the change: 
+	git commit -m "changes from branch1"
+push the change to new branch1:
+	git push --set-upstream origin branch1
+
+
+Merge the changes from the new branch, branch1 to master:
+ check out master:
+	git checkout master
+ merge from branch1 to master:
+	git merge branch1
+ push the merge to master:
+	git push
