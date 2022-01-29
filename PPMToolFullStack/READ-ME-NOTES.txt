@@ -1,3 +1,4 @@
+1. Git basics:
 
 Creating a branch, branch1: 
 	git branch branch1
@@ -21,3 +22,6 @@ Merge the changes from the new branch, branch1 to master:
 	git merge branch1
  push the merge to master:
 	git push
+
+2.
+When we are creating a list of objects in the domain, we have to initialized it to the corrosponding ADT (Abstract Data Type)
