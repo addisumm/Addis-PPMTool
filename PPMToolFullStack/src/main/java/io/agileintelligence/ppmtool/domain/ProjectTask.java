@@ -28,7 +28,7 @@ public class ProjectTask {
     @JsonIgnore
     private Backlog backlog;
     @Column(updatable = false)
-    private String projectIdentifer;
+    private String projectIdentifier;
 
     public ProjectTask () {
     }
@@ -105,12 +105,12 @@ public class ProjectTask {
         this.update_At = update_At;
     }
 
-    public String getProjectIdentifer () {
-        return projectIdentifer;
+    public String getProjectIdentifier () {
+        return projectIdentifier;
     }
 
-    public void setProjectIdentifer (String projectIdentifer) {
-        this.projectIdentifer = projectIdentifer;
+    public void setProjectIdentifier (String projectIdentifer) {
+        this.projectIdentifier = projectIdentifer;
     }
 
     public Backlog getBacklog () {
@@ -143,7 +143,7 @@ public class ProjectTask {
                 ", dueDate=" + dueDate +
                 ", create_At=" + create_At +
                 ", update_At=" + update_At +
-                ", projectIdentifer='" + projectIdentifer + '\'' +
+                ", projectIdentifer='" + projectIdentifier + '\'' +
                 '}';
     }
 

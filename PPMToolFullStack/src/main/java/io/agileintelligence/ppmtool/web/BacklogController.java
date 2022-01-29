@@ -10,25 +10,43 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/backlog")
+@CrossOrigin
 public class BacklogController {
+
     @Autowired
     private ProjectTaskService projectTaskService;
 
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
+
     @PostMapping("/{backlog_id}")
-    public ResponseEntity <?> addPTtoBacklog (@Valid @RequestBody ProjectTask projectTask,
-                                              BindingResult bindingResult, @PathVariable String backlog_id) {
+    public ResponseEntity<?> addPTtoBacklog(@Valid @RequestBody ProjectTask projectTask,
+                                            BindingResult result, @PathVariable String backlog_id){
+        //show delete
+        //custom exception
 
-        ResponseEntity <?> errorMap = mapValidationErrorService.mapVlidationService (bindingResult);
-        if (errorMap != null) return errorMap;
+        ResponseEntity<?> erroMap = mapValidationErrorService.mapVlidationService (result)
+                ;
+        if (erroMap != null) return erroMap;
 
-        ProjectTask projectTask1 = projectTaskService.addProjectTask (backlog_id, projectTask);
-        return new ResponseEntity <ProjectTask> (projectTask1, HttpStatus.CREATED);
+        ProjectTask projectTask1 = projectTaskService.addProjectTask(backlog_id, projectTask);
+
+        return new ResponseEntity<ProjectTask>(projectTask1, HttpStatus.CREATED);
+
     }
+
+    @GetMapping("/{backlog_id}")
+    public Iterable<ProjectTask> getProjectBacklog(@PathVariable String backlog_id){
+
+        return projectTaskService.findBacklogById(backlog_id);
+
+    }
+
+
+
 }
