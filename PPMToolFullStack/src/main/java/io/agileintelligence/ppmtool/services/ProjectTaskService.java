@@ -1,5 +1,4 @@
 package io.agileintelligence.ppmtool.services;
-
 import io.agileintelligence.ppmtool.domain.Backlog;
 import io.agileintelligence.ppmtool.domain.Project;
 import io.agileintelligence.ppmtool.domain.ProjectTask;
@@ -12,17 +11,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProjectTaskService {
-
-
     @Autowired
     private BacklogRepository backlogRepository;
-
     @Autowired
     private ProjectTaskRepository projectTaskRepository;
     @Autowired
     private ProjectRepository projectRepository;
-
-
     public ProjectTask addProjectTask (String projectIdentifier, ProjectTask projectTask) {
         //Exceptions: Project not found
         try { //PTs to be added to a specific project, project != null, BL exists
@@ -57,22 +51,48 @@ public class ProjectTaskService {
             throw new ProjectNotFoundException ("Project not found");
 
         }
-
-
     }
+
 
     public Iterable <ProjectTask> findBacklogById (String id) {
         Project project= projectRepository.findByProjectIdentifier (id);
         if (project==null){
-            throw new ProjectNotFoundException ("Project with projectIdentifier ' "+id+" ' doesn't exist");
+            throw new ProjectNotFoundException ("Project with Id ' "+id+" ' doesn't exist");
         }
-
         return projectTaskRepository.findByProjectIdentifierOrderByPriority (id);
     }
+    public ProjectTask findPTByProjectSequence(String backlog_id, String pt_id){
+        // make sure we are searching on an existing backlog
+        Backlog backlog= backlogRepository.findByProjectIdentifier (backlog_id);
+        if(backlog==null){
+            throw new ProjectNotFoundException ("Project with backlog id '"+backlog_id+" ' doesn't exist");
+        }
 
-    public ProjectTask findPTByProjectSequence(String backlog_id, String sequence){
-        // make sure we are searching on the right backlog
+        //make sure that our task exist
+        ProjectTask projectTask =projectTaskRepository.findByProjectSequence (pt_id);
+        if(projectTask==null){
+            throw new ProjectNotFoundException ("Project Task' "+pt_id+" ' not found");
+        }
 
-       return  projectTaskRepository.findByProjectSequence (sequence);
+        //make sure that backlog/project id in the path corresponds to the right project
+        if(!projectTask.getProjectIdentifier ().equals (backlog_id)){
+            throw  new ProjectNotFoundException ("Project Task '"+pt_id+" ' doesn't exist in project: '"+backlog_id);
+        }
+
+       return  projectTask;
     }
+
+    public ProjectTask updateByProjectSequence(ProjectTask updatedTask, String backlog_id, String pt_id){
+        ProjectTask projectTask =projectTaskRepository.findByProjectSequence (pt_id);
+        projectTask=updatedTask;
+        return projectTaskRepository.save (projectTask);
+
+    }
+    //Update projectTask
+
+    //find existing projectTask
+    //replace with update task
+    //save update
+
+
 }
